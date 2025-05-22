@@ -1,11 +1,6 @@
 ## EX. NO:2 IMPLEMENTATION OF PLAYFAIR CIPHER
-
- 
-
+## Date: 
 ## AIM:
- 
-
- 
 
 To write a C program to implement the Playfair Substitution technique.
 
@@ -34,10 +29,77 @@ STEP-5: Display the obtained cipher text.
 
 
 
-Program:
+## Program:
+```
+#include <stdio.h>
+#include <string.h>
 
+int main() {
+    unsigned int a[3][3] = {
+        {6, 24, 1},
+        {13, 16, 10},
+        {20, 17, 15}
+    }; // Encryption key matrix
 
+    unsigned int b[3][3] = {
+        {8, 5, 10},
+        {21, 8, 21},
+        {21, 12, 8}
+    }; // Decryption key matrix (inverse of 'a' mod 26)
 
+    int i, j, t = 0;
+    unsigned int c[20], d[20];
+    char msg[20];
 
+    printf("Enter 3-letter plain text (in CAPS): ");
+    scanf("%s", msg);
 
-Output:
+    if (strlen(msg) != 3) {
+        printf("Please enter exactly 3 uppercase letters.\n");
+        return 1;
+    }
+
+    // Convert characters to numbers
+    printf("Numeric Representation: ");
+    for (i = 0; i < 3; i++) {
+        c[i] = msg[i] - 'A';
+        printf("%d ", c[i]);
+    }
+
+    // Encryption
+    for (i = 0; i < 3; i++) {
+        t = 0;
+        for (j = 0; j < 3; j++) {
+            t += a[i][j] * c[j];
+        }
+        d[i] = t % 26;
+    }
+
+    printf("\nEncrypted Cipher Text: ");
+    for (i = 0; i < 3; i++) {
+        printf("%c", d[i] + 'A');
+    }
+
+    // Decryption
+    for (i = 0; i < 3; i++) {
+        t = 0;
+        for (j = 0; j < 3; j++) {
+            t += b[i][j] * d[j];
+        }
+        c[i] = t % 26;
+    }
+
+    printf("\nDecrypted Plain Text: ");
+    for (i = 0; i < 3; i++) {
+        printf("%c", c[i] + 'A');
+    }
+
+    printf("\n");
+    return 0;
+}
+
+```
+
+## Output:
+![Screenshot 2025-04-07 082517](https://github.com/user-attachments/assets/161b5103-f57e-4055-848c-7ec25848a689)
+
